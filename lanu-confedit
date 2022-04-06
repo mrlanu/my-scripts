@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# load variables from config
+source "lanu-config.sh"
+
+# get all OPTIONS & pipe them to DMENU
+choice=$(printf '%s\n' "${OPTIONS[@]}" | "${DMENU[@]}" 'Edit config:')
+
+# test selected option
+if [[ "$choice" == "quit" ]]
+then
+  echo "Program terminated." && exit 1
+elif [[ "$choice" ]] 
+then  
+# open selected option in defined EDITOR previously splited it in awk
+  cfg=$(printf '%s\n' "${choice}" | awk '{print $NF}')
+    "${EDITOR[@]}" "${cfg}"
+else
+  echo "Program terminated." && exit 1
+fi
