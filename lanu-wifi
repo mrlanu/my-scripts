@@ -4,13 +4,13 @@
 source "lanu-config.sh"
 
 # get all available wifi from NetworkManager and pipe them to DMENU
-choice=$(nmcli device wifi list | sed -n '1!p' | cut -b 9- | "${DMENU[@]}" 'Select Wifi  :')
+choice=$(nmcli device wifi list | sed -n '1!p' | "${DMENU[@]}" 'Select Wifi  :')
  
 # test selected network and wait to get password
 if [[ "$choice" ]] 
 then
-  # cut first 17 bytes which contains bssid 
-  bssid=$(echo "$choice" | cut -b 1-17)
+  # cut second 17 bytes which contains bssid 
+  bssid=$(echo "$choice" | cut -b 9- | cut -b 1-17)
   pass=$(echo "" | "${DMENU[@]}" 'Enter Password  :')
 
   [ -n "$pass" ] && nmcli device wifi connect "$bssid" password "$pass" || nmcli device wifi connect "$bssid"   
