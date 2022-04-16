@@ -6,8 +6,10 @@ fi
 
 BATTINFO=$(acpi -b)
 
-/usr/bin/notify-send "LOW battery"
-
-if [[ `echo $BATTINFO | grep Discharging` && `echo $BATTINFO | cut -f 5 -d " "` < 02:55:00 ]]; then
+if [[ `echo $BATTINFO | grep Discharging` && `echo $BATTINFO | cut -f 5 -d " "` < 00:30:00 ]]; then
   /usr/bin/notify-send "LOW battery" "$BATTINFO"
 fi
+
+# crontab -e for editing jobs
+# crontab -r for removing jobs
+# crontab -l check scheduled jobs
